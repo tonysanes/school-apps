@@ -33,7 +33,7 @@ CREATE TABLE schooldb.detalle_cronograma (
 	id_detalle_cronograma serial NOT NULL,
 	id_cronograma int4 NOT NULL,
 	desc_pension varchar(50) NULL,
-	fecha_venci varchar(15) NULL,
+	fecha_venci date NULL,
 	CONSTRAINT detalle_cronograma_pk PRIMARY KEY (id_detalle_cronograma),
 	CONSTRAINT detalle_cronograma_fk FOREIGN KEY (id_cronograma) REFERENCES schooldb.cronograma(id_cronograma)
 );
@@ -43,7 +43,7 @@ CREATE TABLE schooldb.movimiento (
 	tipo_movimiento varchar(20) NULL,
 	monto float8 NULL,
 	estado varchar(20) NULL,
-	fecha_pago timestamp(0) NULL,
+	fecha_pago varchar(15) NULL,
 	id_persona int4 NOT NULL,
 	id_detalle_cronograma int4 NOT NULL,
 	CONSTRAINT movimiento_pk PRIMARY KEY (id_movimiento),
