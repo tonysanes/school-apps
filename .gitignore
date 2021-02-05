@@ -1,0 +1,19 @@
+/school-services/dist
+/school-services/tmp
+
+# dependencies
+/school-services/node_modules
+/school-services/bower_components
+
+# IDEs and editors
+/school-services/.idea
+
+/web-school/dist
+/web-school/tmp
+
+# dependencies
+/web-school/node_modules
+/web-school/bower_components
+
+# IDEs and editors
+/web-school/.idea

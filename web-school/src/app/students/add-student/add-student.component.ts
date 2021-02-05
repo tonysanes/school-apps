@@ -72,7 +72,7 @@ export class AddStudentComponent implements OnInit {
 
     this.studentService.addStudent(studentLevel)
     .subscribe((data) => {
-      this.grados = data;
+      //this.grados = data;
     });
   }
 
