@@ -22,7 +22,7 @@ CREATE TABLE schooldb.persona (
 	ape_pate_pers varchar(50) NULL,
 	ape_mate_pers varchar(50) NOT NULL,
 	nid_grado int4 NOT NULL,
-	fecha_naci date NULL,
+	fecha_naci varchar(15) NULL,
 	foto_ruta varchar(200) NULL,
 	CONSTRAINT persona_pk PRIMARY KEY (nid_persona),
 	CONSTRAINT persona_fk FOREIGN KEY (nid_grado) REFERENCES schooldb.grado(nid_grado)
@@ -33,7 +33,7 @@ CREATE TABLE schooldb.detalle_cronograma (
 	id_detalle_cronograma serial NOT NULL,
 	id_cronograma int4 NOT NULL,
 	desc_pension varchar(50) NULL,
-	fecha_venci date NULL,
+	fecha_venci varchar(15) NULL,
 	CONSTRAINT detalle_cronograma_pk PRIMARY KEY (id_detalle_cronograma),
 	CONSTRAINT detalle_cronograma_fk FOREIGN KEY (id_cronograma) REFERENCES schooldb.cronograma(id_cronograma)
 );
