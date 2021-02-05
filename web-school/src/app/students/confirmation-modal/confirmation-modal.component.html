@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Confirmacion</h1>
+<div mat-dialog-content>
+  <p>Desea borrar el registro del alumno?</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close="yes" cdkFocusInitial mat-raised-button color="primary">Si</button>
+    <button mat-button (click)="onNoClick()" mat-raised-button color="warn">No</button>
+</div>

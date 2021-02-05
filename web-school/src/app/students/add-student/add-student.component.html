@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>Nuevo Estudiente</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formGroup">
+
+        <mat-grid-list cols="2" rowHeight="3:1">
+            <mat-grid-tile colspan="1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput formControlName="nombres" placeholder="Ingresar Nombres">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input matInput formControlName="apePat" placeholder="Ingresar Apellido Paterno">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input matInput formControlName="apeMat" placeholder="Ingresar Apellido Materno">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <mat-form-field appearance="fill">
+                  <mat-label>Grado</mat-label>
+                  <mat-select formControlName="grado">
+                    <mat-option *ngFor="let g of grados" [value]="g.nid_grado">
+                      {{g.desc_grado}} - {{g.nivel}} 
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+            <mat-grid-tile  colspan="1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha Nacimiento</mat-label>
+                    <input matInput [matDatepicker]="dp3" disabled (dateChange)="addEvent($event)">
+                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Edad</mat-label>
+                    <input matInput disabled [value]="edad.value">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2">
+                <input type="file" id="myFile" name="filename" formControlName="ruta">
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" mat-raised-button color="warn">Cancelar</button>
+  <button mat-button mat-dialog-close="yes" cdkFocusInitial [disabled]="!formGroup.valid" (click)="onSave()" mat-raised-button color="primary">Agregar</button>
+</div>
