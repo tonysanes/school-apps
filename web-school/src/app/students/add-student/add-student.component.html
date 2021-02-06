@@ -46,12 +46,14 @@
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile colspan="2">
-                <input type="file" id="myFile" name="filename" formControlName="ruta">
+                <!-- <input type="file" id="myFile" name="filename" formControlName="ruta"> -->
+                <input type="file" id="fileUplaod" name="fileUplaod" (change)="handleFileInput($event.target.files)" formControlName="ruta"  >
+                <!-- <input type="file" name="fileUplaod" id="fileUpload" ng2FileSelect [uploader]="uploader" formControlName="ruta"> -->
             </mat-grid-tile>
         </mat-grid-list>
     </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()" mat-raised-button color="warn">Cancelar</button>
-  <button mat-button mat-dialog-close="yes" cdkFocusInitial [disabled]="!formGroup.valid" (click)="onSave()" mat-raised-button color="primary">Agregar</button>
+    <button mat-button (click)="onNoClick()" mat-raised-button color="warn">Cancelar</button>
+    <button mat-button mat-dialog-close="yes" cdkFocusInitial [disabled]="!formGroup.valid" (click)="onSave()" mat-raised-button color="primary">Agregar</button>
 </div>

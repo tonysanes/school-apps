@@ -3,7 +3,7 @@ export interface Student {
     nom_persona: string;
     ape_pate_pers: string;
     ape_mate_pers: string;
-    nid_grado: number;
+    grado: String;
     fecha_naci: string;
     foto_ruta: string;
 }

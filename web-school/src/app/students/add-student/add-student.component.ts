@@ -8,6 +8,9 @@ import { Grade } from '../grade';
 import { StudentsService } from '../students.service';
 
 import * as moment from 'moment';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+
+const uri = 'http://localhost:3000/upload';
 
 @Component({
   selector: 'app-add-student',
@@ -18,16 +21,29 @@ export class AddStudentComponent implements OnInit {
 
   formGroup: FormGroup;
   grados: Grade[] = [];
-  /* [
-    {id:1, desc: 'Primero', nivel:'PRI'},
-    {id:1, desc: 'Segundo', nivel:'PRI'},
-    {id:1, desc: 'Primero', nivel:'SEC'},
-    {id:1, desc: 'Tercero', nivel:'SEC'}
-  ]; */
+
   date = new FormControl(new Date());
   birthday: Date;
   events: string[] = [];
-  constructor(private studentService: StudentsService ,private formBuilder: FormBuilder, public dialogRef: MatDialogRef<AddStudentComponent>, @Inject(MAT_DIALOG_DATA) public data: string) { }
+
+  uploader: FileUploader = new FileUploader({url: uri});
+  attachment:any;
+  fileToUpload: File = null;
+  newFileName: string;
+
+  constructor(
+    private studentService: StudentsService ,
+    private formBuilder: FormBuilder, 
+    public dialogRef: MatDialogRef<AddStudentComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: string) { 
+
+      this.uploader.onCompleteItem = (item: any, response: any , status: any, headers: any) => {
+        //this.attachment = JSON.parse(response);
+        console.log(item);
+        this.newFileName = response.uploadname;
+        console.log(this.newFileName);
+      }
+    }
 
   ngOnInit(): void {
     this.loadGrades();
@@ -37,7 +53,7 @@ export class AddStudentComponent implements OnInit {
       apeMat: ['',[Validators.required, Validators.maxLength(40)] ],
       grado: [null, Validators.required],
       edad: [''],
-      ruta: ['',Validators.required]
+      ruta: ['', Validators.required]
     });
     
   }
@@ -55,25 +71,34 @@ export class AddStudentComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
   onSave(){
-    let studentLevel : StudentLevel;
-    let formattedDate = (moment(this.birthday)).format('YYYY-MM-DD')
-    console.log(formattedDate);
-    studentLevel =  {    
-      xnombre: this.nombres.value,
-      xape_pat: this.apePat.value,
-      xape_mat: this.apeMat.value,
-      xid_grado: Number(this.grado.value),
-      xfecha_naci: formattedDate,//this.birthday,
-      xfoto_ruta: this.ruta.value,
-      xnivel: 'INI'
-    };
-    console.log(studentLevel);
-
-    this.studentService.addStudent(studentLevel)
+    this.studentService.uploadFile(this.fileToUpload)
     .subscribe((data) => {
-      //this.grados = data;
+      console.log(data);
+      this.newFileName = data['uploadname'];
+
+      let studentLevel : StudentLevel;
+      let formattedDate = (moment(this.birthday)).format('YYYY-MM-DD')
+      
+      studentLevel =  {    
+        xnombre: this.nombres.value,
+        xape_pat: this.apePat.value,
+        xape_mat: this.apeMat.value,
+        xid_grado: Number(this.grado.value),
+        xfecha_naci: formattedDate,//this.birthday,
+        xfoto_ruta: 'http://localhost:3000/photos/'+this.newFileName ,//this.ruta.value,
+        xnivel: 'INI'
+      };
+  
+      this.studentService.addStudent(studentLevel)
+      .subscribe((data) => {
+        console.log(data);
+      });
     });
+
   }
 
   calcularEdad(selectedDate): string{

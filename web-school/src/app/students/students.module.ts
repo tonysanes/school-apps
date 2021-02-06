@@ -13,10 +13,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 import { AddStudentComponent } from './add-student/add-student.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FileUploadModule,
     MatTableModule,
     MatInputModule,
     MatFormFieldModule,
@@ -35,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ],
   exports:[StudentsComponent]
 })

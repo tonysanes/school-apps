@@ -1,4 +1,6 @@
 const { Pool } = require('pg');
+const multer = require('multer');
+const fs = require("fs")
 
 const pool = new Pool({
     host: 'localhost',
@@ -28,11 +30,51 @@ const deleteStudent = async (req, res) => {
     const response1 = await pool.query('DELETE FROM schooldb.movimiento WHERE id_persona = $1', [id]);
     const response2 = await pool.query('DELETE FROM schooldb.persona WHERE nid_persona = $1', [id]);
     res.status(200).json(response2.rows);
-} 
+};
+
+//Upload
+const store = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null, './uploads');
+    },
+    filename:function(req,file,cb){
+        cb(null, Date.now()+'.'+file.originalname);
+    }
+});
+
+const upload = multer({storage:store}).single('file');
+
+const uploadFile = (req, res, next) => {
+    upload(req, res, function(err){
+        if(err){
+            return res.status(501).json({error:err});
+        }
+        //do all database record saving activity
+        return res.json({originalname:req.file.originalname, uploadname:req.file.filename});
+    });
+};
+
+//remove file
+const path = "./uploads/";
+
+const removeFile = (req, res) => {
+    const filename = parseInt(req.params.filename);
+    const pathToFile = path + filename;
+    fs.unlink(pathToFile, function(err) {
+        if (err) {
+          throw err
+        } else {
+          console.log("Successfully deleted the file.")
+        }
+        res.status(200).json(filename + "deleted Successfully.");
+    });
+} ;
 
 module.exports = {
     getGrades,
     createStudent,
     getStudents,
-    deleteStudent
+    deleteStudent,
+    uploadFile,
+    removeFile
 }

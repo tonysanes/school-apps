@@ -4,6 +4,7 @@
 # dependencies
 /school-services/node_modules
 /school-services/bower_components
+/school-services/package-lock.json
 
 # IDEs and editors
 /school-services/.idea
@@ -14,6 +15,7 @@
 # dependencies
 /web-school/node_modules
 /web-school/bower_components
+/web-school/package-lock.json
 
 # IDEs and editors
 /web-school/.idea

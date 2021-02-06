@@ -5,47 +5,35 @@
 </mat-form-field>
 <button mat-raised-button color="primary" style="float: right;" (click)="openDialog()">Nuevo</button>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;"> 
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 300px;"> 
 
-  <ng-container matColumnDef="nid_persona">
-    <th mat-header-cell *matHeaderCellDef> Id. </th>
-    <td mat-cell *matCellDef="let element"> {{element.nid_persona}} </td>
+  <ng-container matColumnDef="foto_ruta">
+    <th mat-header-cell *matHeaderCellDef> Foto </th>
+    <td mat-cell *matCellDef="let element" style="text-align: center; "> 
+      <img mat-card-image [src]="element.foto_ruta" alt="My photo" style=" text-align: center; width:150px;height:180px; border-radius: 15px;">
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="nom_persona">
     <th mat-header-cell *matHeaderCellDef> Nombre </th>
-    <td mat-cell *matCellDef="let element"> {{element.nom_persona}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="ape_pate_pers">
-    <th mat-header-cell *matHeaderCellDef> Ape. Paterno </th>
-    <td mat-cell *matCellDef="let element"> {{element.ape_pate_pers}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="ape_mate_pers">
-    <th mat-header-cell *matHeaderCellDef> Ape. Mat </th>
-    <td mat-cell *matCellDef="let element"> {{element.ape_mate_pers}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="nid_grado">
-    <th mat-header-cell *matHeaderCellDef> Grado </th>
-    <td mat-cell *matCellDef="let element"> {{element.nid_grado}} </td>
+    <td mat-cell *matCellDef="let element" style="text-align: center; margin: 0px; "> <h3 style="margin: 0px; font-weight: bold;">{{element.nom_persona}} {{element.ape_pate_pers}} {{element.ape_mate_pers}}</h3></td>
   </ng-container>
 
   <ng-container matColumnDef="fecha_naci">
     <th mat-header-cell *matHeaderCellDef> Fech. Nac. </th>
-    <td mat-cell *matCellDef="let element"> {{element.fecha_naci}} </td>
+    <td mat-cell *matCellDef="let element" style="text-align: center; margin: 0px;"> {{calcularEdad(element.fecha_naci)}} </td>
+  </ng-container>
+  
+  <ng-container matColumnDef="grado">
+    <th mat-header-cell *matHeaderCellDef> Grado </th>
+    <td mat-cell *matCellDef="let element" style="text-align: center; margin: 0px;"> {{element.grado}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="foto_ruta">
-    <th mat-header-cell *matHeaderCellDef> Foto </th>
-    <td mat-cell *matCellDef="let element"> {{element.foto_ruta}} </td>
-  </ng-container>
 
   <ng-container matColumnDef="accion">
     <th mat-header-cell *matHeaderCellDef> Accion </th>
-    <td mat-cell *matCellDef="let element"> 
-      <button mat-button (click)="removeStudent(element)" mat-raised-button color="warn" style="float: right;" >Borrar <mat-icon>delete</mat-icon></button>
+    <td mat-cell *matCellDef="let element" style="text-align: center;"> 
+      <button mat-button (click)="removeStudent(element)" mat-raised-button color="warn" >Borrar <mat-icon>delete</mat-icon></button>
     </td>
   </ng-container>
 

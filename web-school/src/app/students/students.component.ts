@@ -6,12 +6,6 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 import { Student } from './student';
 import { StudentsService } from './students.service';
 
-/* const ELEMENT_DATA: Student[] = [
-  {id:1, nombres: "Tony A.", apePat: "Sanchez", apeMat: "Escalante", grado:"4to Grado Sec", fechNac: new Date("1996-02-12T00:00:00"), fotoRuta: "/foto/profile1.jpg"},
-  {id:2, nombres: "Jimmy E.", apePat: "Sanchez", apeMat: "Escalante", grado:"5to Grado Sec", fechNac: new Date("1987-01-01T00:00:00"), fotoRuta: "/foto/profile2.jpg"},
-  {id:3, nombres: "Maycon E.", apePat: "Sanchez", apeMat: "Escalante", grado:"6to Grado Sec", fechNac: new Date("1985-11-19T00:00:00"), fotoRuta: "/foto/profile3.jpg"}
-]; */
-
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -25,15 +19,11 @@ export class StudentsComponent implements OnInit {
   students: Student[] = [];
   constructor(private studentService: StudentsService, public dialog: MatDialog) { }
   
-  displayedColumns: string[] = ['nid_persona', 'nom_persona', 'ape_pate_pers', 'ape_mate_pers', 'nid_grado', 'fecha_naci', 'foto_ruta', 'accion'];
+  displayedColumns: string[] = ['foto_ruta', 'nom_persona', 'fecha_naci', 'grado', 'accion'];
   
   dataSource: any;
   ngOnInit(): void {
     this.loadStudents();
-/*     setTimeout(() => {
-      this.dataSource = new MatTableDataSource(this.students);
-    }, 1000); */
-    //this.dataSource = new MatTableDataSource(ELEMENT_DATA);
   }
 
   applyFilter(event: Event) {
@@ -56,6 +46,11 @@ export class StudentsComponent implements OnInit {
     .subscribe((data) => {
     });
   }
+  deletFileByName(filename){
+    this.studentService.deleteFile(filename)
+    .subscribe((data) => {
+    });
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddStudentComponent, {
@@ -67,7 +62,9 @@ export class StudentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.confirmDelete = result;
       if(this.confirmDelete == 'yes'){
-        this.loadStudents();
+        setTimeout(() => {
+          this.loadStudents();
+        }, 1000);
       }
     });
   }
@@ -86,8 +83,37 @@ export class StudentsComponent implements OnInit {
         setTimeout(() => {
           this.loadStudents();
         }, 1000);
+        /* setTimeout(() => {
+          const ruta = element.foto_ruta;
+          const rutaSplit = ruta.split('/photos/');
+          const name = rutaSplit[1];
+          this.deletFileByName(name);
+        }, 1000); */
       }
     });
+  }
+
+  calcularEdad(selectedDate): string{
+    const birthDate =  new Date(selectedDate);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+
+    if(today.getMonth() < birthDate.getMonth()) {
+        age--;
+        months = today.getMonth() + 12 - birthDate.getMonth();
+    }
+
+    if(today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
+        age--;
+        months = today.getMonth() + 12 - birthDate.getMonth();
+    }
+
+    if(age > 0 && today.getMonth() > birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
+      months--;
+  }
+    return age +' año(s) '+ months + ' mes(es)';
   }
 
 }
