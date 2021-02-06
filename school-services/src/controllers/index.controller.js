@@ -15,7 +15,7 @@ const getGrades = async (req, res) => {
     res.status(200).json(response.rows);
 } 
 const getStudents = async (req, res) => {
-    const response = await pool.query('SELECT * FROM schooldb.persona');
+    const response = await pool.query('SELECT * FROM schooldb.alumno_view');
     res.status(200).json(response.rows);
 } 
 const createStudent = async (req, res) => {
